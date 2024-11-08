@@ -1,0 +1,48 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+touch DTCShip.foam
+
+runApplication blockMesh
+
+runApplication surfaceFeatureExtract
+
+runApplication decomposePar
+
+#runApplication snappyHexMesh -dict system/snappyHexMeshDictCastellated -overwrite
+runParallel snappyHexMesh -dict system/snappyHexMeshDictCastellated -overwrite
+
+mv log.snappyHexMesh log.snappyHexMeshCastellated
+
+runApplication reconstructParMesh -constant
+mv log.decomposePar log.decomposePar1
+mv log.reconstructParMesh log.reconstructParMesh1
+#- supprime les repertoires processor
+ls -d processor* | xargs -i rm -rf ./{} $1
+
+# z-dir refinement for free surface
+runApplication topoSet -dict system/topoSetDict
+runApplication refineMesh -dict system/refineMeshDictZ -overwrite
+#runParallel topoSet -dict system/topoSetDict
+#runParallel refineMesh -dict system/refineMeshDictZ -overwrite
+
+rm -f constant/polyMesh/cellLevel
+rm -f constant/polyMesh/pointLevel
+rm -f constant/polyMesh/level0Edge
+
+runApplication decomposePar
+
+#runApplication snappyHexMesh -dict system/snappyHexMeshDictSnapLayers -overwrite
+runParallel snappyHexMesh -dict system/snappyHexMeshDictSnapLayers -overwrite
+
+runApplication reconstructParMesh -constant
+mv log.decomposePar log.decomposePar2
+mv log.reconstructParMesh log.reconstructParMesh2
+#- supprime les repertoires processor
+ls -d processor* | xargs -i rm -rf ./{} $1
+
+runApplication renumberMesh -constant -overwrite
+
+runApplication foamMeshToFluent
+#------------------------------------------------------------------------------

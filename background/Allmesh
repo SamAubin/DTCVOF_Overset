@@ -1,0 +1,23 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+touch bg.foam
+
+runApplication blockMesh
+
+runApplication snappyHexMesh -overwrite
+
+runApplication -a topoSet -dict system/topoSetDictZ0
+
+for i in 1 2 3 4 5
+do
+    foamDictionary  system/refineMeshDictZ -entry set -set c${i}
+
+    runApplication -a topoSet -dict system/topoSetDictZ
+
+    runApplication -a refineMesh -dict system/refineMeshDictZ -overwrite
+done
+
+runApplication foamMeshToFluent
+#------------------------------------------------------------------------------

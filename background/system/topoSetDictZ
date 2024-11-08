@@ -1,0 +1,117 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  12
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+xMin -16;
+xMax 14;
+yMin -10;
+yMax 10;
+zMin -4.244;
+zMax 2.756;
+
+z0 -0.756;
+z1 -0.256;
+z2 -0.131;
+z3 -0.006;
+z4 0.119;
+z5 0.369;
+z6 0.494;
+z7 0.619;
+z8 0.744;
+z9 1.244;
+
+actions
+(
+    {
+        name    c1;
+        type    cellSet;
+        action  new;
+        source  boxToCell;
+        box ($xMin $yMin $z0)($xMax $yMax $z9);
+    }
+    {
+        name    c1;
+        type    cellSet;
+        action  delete;
+        source  cellToCell;
+        sourceInfo
+        {
+            set c01;
+        }   
+    }
+
+    {
+        name    c2;
+        type    cellSet;
+        action  new;
+        source  boxToCell;
+        box ($xMin $yMin $z1)($xMax $yMax $z8);
+    }
+    {
+        name    c2;
+        type    cellSet;
+        action  delete;
+        source  cellToCell;
+        sourceInfo
+        {
+            set c02;
+        }   
+    }
+
+    {
+        name    c3;
+        type    cellSet;
+        action  new;
+        source  boxToCell;
+        box ($xMin $yMin $z2)($xMax $yMax $z7);
+    }
+    {
+        name    c3;
+        type    cellSet;
+        action  delete;
+        source  cellToCell;
+        sourceInfo
+        {
+            set c03;
+        }   
+    }
+
+    {
+        name    c4;
+        type    cellSet;
+        action  new;
+        source  boxToCell;
+        box ($xMin $yMin $z3)($xMax $yMax $z6);
+    }
+    {
+        name    c4;
+        type    cellSet;
+        action  delete;
+        source  cellToCell;
+        sourceInfo
+        {
+            set c04;
+        }   
+    }
+
+    {
+        name    c5;
+        type    cellSet;
+        action  new;
+        source  boxToCell;
+        box ($xMin $yMin $z4)($xMax $yMax $z5);
+    }
+);
+
+// ************************************************************************* //

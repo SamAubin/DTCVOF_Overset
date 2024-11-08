@@ -1,0 +1,131 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2206                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+castellatedMesh true;
+snap            false;
+addLayers       false;
+
+geometry
+{
+    DTCShip.stl
+    {
+        type triSurfaceMesh;
+        name ship;
+
+        patchInfo
+        {
+            type wall;
+        }
+    }
+}
+
+castellatedMeshControls
+{
+    maxLocalCells 100000;
+    maxGlobalCells 2000000;
+    minRefinementCells 0;
+    nCellsBetweenLevels 3;
+    resolveFeatureAngle 45;
+
+    features
+    (
+         {
+             file "DTCShip.eMesh";
+             level 0;
+         }
+    );
+
+    refinementSurfaces
+    {
+        ship
+        {
+            level (0 0);
+        }
+    }
+
+    refinementRegions
+    {
+        ship 
+        {
+            mode distance;
+            //levels ((0.1 1));
+	    levels ((0.06 2) (0.12 1)); 
+	    // levels ((0.05 3) (0.1 2) (0.2 2)); 
+        }
+    }
+
+
+    // Mesh selection
+    // ~~~~~~~~~~~~~~
+    locationInMesh (-0.1 -0.1 0);
+    allowFreeStandingZoneFaces true;
+}
+
+snapControls
+{
+    nSmoothPatch 3;
+    tolerance 1.0; //tolerance 4.0;
+    nSolveIter 100;
+    nRelaxIter 5;
+    nFeatureSnapIter 10;
+}
+
+addLayersControls
+{
+    relativeSizes true;
+    layers
+    {
+        ship
+        {
+            nSurfaceLayers 3;
+
+        }
+    }
+
+    expansionRatio 1.3;
+    finalLayerThickness 0.7;
+    minThickness 0.1;
+    nGrow 0;
+
+    // Advanced settings
+    featureAngle 180;
+    mergePatchFacesAngle 60;    // featureAngle
+    layerTerminationAngle 30;   // 0.5*featureAngle
+    slipFeatureAngle 30;        // 0.5*featureAngle
+    nRelaxIter 5;
+    nSmoothSurfaceNormals 2;
+    nSmoothNormals 3;
+    nSmoothThickness 10;
+    maxFaceThicknessRatio 0.5;
+    maxThicknessToMedialRatio 0.3;
+    minMedialAxisAngle 90;
+    nBufferCellsNoExtrude 0;
+    nLayerIter 50;
+    nRelaxedIter 20;
+}
+
+meshQualityControls
+{
+    #include "meshQualityDict"
+}
+
+
+// Advanced
+debug 0;
+
+mergeTolerance 1E-6;
+
+// ************************************************************************* //
