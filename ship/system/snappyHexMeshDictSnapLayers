@@ -104,9 +104,9 @@ addLayersControls
 
     // Advanced settings
     featureAngle 180;
-    mergePatchFacesAngle 90;    // featureAngle
-    layerTerminationAngle 45;   // 0.5*featureAngle
-    slipFeatureAngle 45;        // 0.5*featureAngle
+    mergePatchFacesAngle 180;    // featureAngle
+    layerTerminationAngle 90;   // 0.5*featureAngle
+    slipFeatureAngle 90;        // 0.5*featureAngle
     nRelaxIter 5;
     nSmoothSurfaceNormals 2;
     nSmoothNormals 3;
@@ -126,6 +126,14 @@ meshQualityControls
 
 
 // Advanced
+
+writeFlags
+(
+    scalarLevels    // write volScalarField with cellLevel for postprocessing
+    layerSets       // write cellSets, faceSets of faces in layer
+    layerFields     // write volScalarField for layer coverage
+);
+
 debug 0;
 
 mergeTolerance 1E-6;

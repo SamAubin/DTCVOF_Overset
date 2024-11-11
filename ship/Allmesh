@@ -15,9 +15,9 @@ runParallel snappyHexMesh -dict system/snappyHexMeshDictCastellated -overwrite
 
 mv log.snappyHexMesh log.snappyHexMeshCastellated
 
-runApplication reconstructParMesh -constant
+runParallel redistributePar -reconstruct -constant -withZero
 mv log.decomposePar log.decomposePar1
-mv log.reconstructParMesh log.reconstructParMesh1
+mv log.redistributePar log.redistributePar1
 #- supprime les repertoires processor
 ls -d processor* | xargs -i rm -rf ./{} $1
 
@@ -36,9 +36,9 @@ runApplication decomposePar
 #runApplication snappyHexMesh -dict system/snappyHexMeshDictSnapLayers -overwrite
 runParallel snappyHexMesh -dict system/snappyHexMeshDictSnapLayers -overwrite
 
-runApplication reconstructParMesh -constant
+runParallel redistributePar -reconstruct -constant
 mv log.decomposePar log.decomposePar2
-mv log.reconstructParMesh log.reconstructParMesh2
+mv log.redistributePar log.redistributePar2
 #- supprime les repertoires processor
 ls -d processor* | xargs -i rm -rf ./{} $1
 
