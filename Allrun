@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --account=def-fellouah   # Specify account name
-#SBATCH --time=00-00:20      # Specify time limit dd-hh:mm
+#SBATCH --time=00-01:00     # Specify time limit dd-hh:mm
 #SBATCH --mem=0
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=40
