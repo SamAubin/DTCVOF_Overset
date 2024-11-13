@@ -15,9 +15,6 @@ runApplication setFields # assign zoneIDs and alpha.water
 
 runApplication decomposePar -force
 runParallel $(getApplication)
-# runParallel redistributePar -reconstruct -overwrite
-runApplication reconstructPar
-# runApplication $(getApplication)
-
+runParallel redistributePar -reconstruct -overwrite
 
 #------------------------------------------------------------------------------

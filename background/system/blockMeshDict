@@ -72,7 +72,7 @@ boundary
     }
     atmosphere
     {
-        type symmetryPlane;
+        type inletOutlet;
         faces
         (
             (4 5 6 7) 

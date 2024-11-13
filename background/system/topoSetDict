@@ -17,25 +17,25 @@ FoamFile
 actions
 (
     {
-        name    c0; // background, zoneID 0
+        name    cb; // background, zoneID 0
         type    cellSet;
         action  new;
-        source  regionsToCell;
+        source  regionToCell;
 
-        insidePoints ((-6 -0.05 0.0));
+        insidePoints ((-0.25 0 0.1));
     }
 
     {
-        name    c1;
+        name    cs;
         type    cellSet;
         action  new;
         source  cellToCell; // copy c0: c1 = c0 = background
 
-        set     c0;
+        set     cb;
     }
 
     {
-        name    c1;
+        name    cs;
         type    cellSet;
         action  invert; // c1 = opposite of background = all - bg = hull
     }

@@ -25,6 +25,12 @@ boundaryField
 {
     #includeEtc "caseDicts/setConstraintTypes"
 
+    oversetShip
+    {
+        type           overset;
+	value	       $internalField;
+    }
+
     ship
     {
         type            movingWallVelocity;
@@ -36,16 +42,6 @@ boundaryField
         type            fixedValue;
         value           $internalField;
     }
-
-    // outlet
-    // {
-    //     type            inletOutlet;
-    //     // value           uniform (0 0 0);
-    //     // inletValue      uniform (0 0 0 );
-
-    //     value           $internalField;
-    //     inletValue      uniform (0 0 0 );
-    // }
 
     outlet
     {
@@ -62,11 +58,6 @@ boundaryField
         value               uniform (0 0 0);
     }
 
-    oversetShip
-    {
-        type           overset;
-    }
 }
-
 
 // ************************************************************************* //

@@ -28,17 +28,18 @@ boundaryField
         value           uniform (0 0 0);
     }
 
+    oversetShip
+    {
+        patchType       overset;
+        type            zeroGradient;
+    }
+
     ship
     {
         type            calculated;
         value           uniform (0 0 0);
     }
 
-    oversetShip
-    {
-        patchType       overset;
-        type            zeroGradient;
-    }
 }
 
 

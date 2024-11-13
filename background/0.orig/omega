@@ -21,6 +21,12 @@ internalField   uniform 2;
 boundaryField
 {
     #includeEtc "caseDicts/setConstraintTypes"
+ 
+    oversetShip
+    {
+        type           overset;
+	value	       $internalField;
+    }
 
     inlet
     {
@@ -49,10 +55,6 @@ boundaryField
         value           $internalField;
     }
 
-    oversetShip
-    {
-        type           overset;
-    }
 }
 
 

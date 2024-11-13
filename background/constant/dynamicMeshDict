@@ -18,22 +18,13 @@ dynamicFvMesh       dynamicOversetFvMesh;
 
 solvers
 {
-    // VF
-    // {
-    //     motionSolverLibs (libfvMotionSolvers);
-    //     motionSolver            solidBody;
-    //     solidBodyMotionFunction drivenLinearMotion;
-    //     cellSet                 c0;
-    //     cOfGdisplacement        CofG;
-    // }
-
     boat_propeller
     {
         motionSolverLibs    (librigidBodyMeshMotion);
         motionSolver         rigidBodyMotion;
 
         report              on;
-        cellSet             c1;
+        cellSet             cs;
         // cOfGdisplacement    CofG;
         // bodyIdCofG      1;
 
@@ -97,5 +88,4 @@ solvers
     }
 }
 
-
-// ************************************************************************* //
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
