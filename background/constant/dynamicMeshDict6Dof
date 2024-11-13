@@ -1,0 +1,80 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2206                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+motionSolverLibs    (sixDoFRigidBodyMotion);
+
+dynamicFvMesh       dynamicOversetFvMesh;
+
+solver          sixDoFRigidBodyMotion;
+
+sixDoFRigidBodyMotionCoeffs
+ {
+     patches         ( ship );
+
+     innerDistance   100;
+     outerDistance   200;
+
+     centreOfMass    ( 0 0 0 );
+     mass            412.73;
+     momentOfInertia ( 40 921 921 );
+
+     transform       (1 0 0 0 1 0 0 0 1)  (2.929541 0 0.2);
+
+     accelerationRelaxation 0.8;
+     accelerationDamping 0.9;
+
+     report          on;
+     reportToFile    on;
+
+     solver
+     {
+        type    Newmark;
+        gamma   0.5;    // Velocity integration coefficient
+        beta    0.25;   // Position integration coefficient
+     }
+
+     constraints
+     {
+         pitch
+         {
+             sixDoFRigidBodyMotionConstraint   axis;
+             axis                              (0 1 0);        
+         }  
+
+         heave
+         {
+             sixDoFRigidBodyMotionConstraint   line;
+             direction                         (0 0 1);                
+         } 
+     }
+
+     restraints
+     {
+         translationDamper
+         {
+             sixDoFRigidBodyMotionRestraint      linearDamper;
+             coeff                               8596;              //Linear damping coefficient in Ns/m
+         }  
+
+         rotationDamper
+         {
+             sixDoFRigidBodyMotionRestraint      sphericalAngularDamper;
+             coeff                               11586;                //angular damping coefficient in Nms/rad
+         }  
+     }
+ }
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
