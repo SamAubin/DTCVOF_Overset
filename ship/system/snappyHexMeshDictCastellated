@@ -44,7 +44,7 @@ castellatedMeshControls
     (
          {
              file "DTCShip.eMesh";
-             level 0;
+             level 2;
          }
     );
 
@@ -52,7 +52,7 @@ castellatedMeshControls
     {
         ship
         {
-            level (0 0);
+            level (0 2);
         }
     }
 
@@ -61,8 +61,8 @@ castellatedMeshControls
         ship 
         {
             mode distance;
-            //levels ((0.1 1));
-	    levels ((0.06 2) (0.12 1)); 
+            levels ((0.1 1));
+	    //levels ((0.06 2) (0.12 1)); 
 	    // levels ((0.05 3) (0.1 2) (0.2 2)); 
         }
     }

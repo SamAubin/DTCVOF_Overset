@@ -1,44 +1,42 @@
 #!/bin/sh
-cd "${0%/*}" || exit                                # Run from this directory
-. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+cd "${0%/*}" || exit                                
 #------------------------------------------------------------------------------
+
+rm -f log*
+rm -r constant/polyMesh
+rm -r constant/extendedFeatureEdgeMesh
+rm -r 0
+rm -r fluentInterface
+
 touch DTCShip.foam
 
-runApplication blockMesh
+blockMesh > log.blockMesh
 
-runApplication surfaceFeatureExtract
+surfaceFeatureExtract > log.surfaceFeatureExtract
 
-runApplication decomposePar
+decomposePar > log.decomposePar1
+mpirun -np 40 snappyHexMesh -parallel -dict system/snappyHexMeshDictCastellated -overwrite > log.snappyHexMeshCastellated
 
-runParallel snappyHexMesh -dict system/snappyHexMeshDictCastellated -overwrite
-
-mv log.snappyHexMesh log.snappyHexMeshCastellated
-
-runParallel redistributePar -reconstruct -constant -withZero
-mv log.decomposePar log.decomposePar1
-mv log.redistributePar log.redistributePar1
-#- supprime les repertoires processor
+mpirun -np 40 redistributePar -reconstruct -parallel -constant -withZero > log.redistributePar1
 ls -d processor* | xargs -i rm -rf ./{} $1
 
 # z-dir refinement for free surface
-runApplication topoSet -dict system/topoSetDict
-runApplication refineMesh -dict system/refineMeshDictZ -overwrite
-
-rm -f constant/polyMesh/cellLevel
+topoSet -dict system/topoSetDict > log.topoSet
+refineMesh -dict system/refineMeshDictZ -overwrite  > log.refineMesh
+rm -f 0/cellLevel
+rm -f 0/pointLevel
 rm -f constant/polyMesh/pointLevel
 rm -f constant/polyMesh/level0Edge
+rm -f constant/polyMesh/cellLevel
 
-runApplication decomposePar
+decomposePar > log.decomposePar2
+mpirun -np 40 snappyHexMesh -parallel -dict system/snappyHexMeshDictSnapLayers -overwrite > log.snappyHexMeshDictSnapLayers
 
-runParallel snappyHexMesh -dict system/snappyHexMeshDictSnapLayers -overwrite
-
-runParallel redistributePar -reconstruct -constant
-mv log.decomposePar log.decomposePar2
-mv log.redistributePar log.redistributePar2
-#- supprime les repertoires processor
+mpirun -np 40 redistributePar -reconstruct -parallel -constant -withZero > log.redistributePar2
 ls -d processor* | xargs -i rm -rf ./{} $1
 
-runApplication renumberMesh -constant -overwrite
+renumberMesh -constant -overwrite > log.renumberMesh
 
-runApplication foamMeshToFluent
+foamMeshToFluent > log.foamMeshToFluent
+
 #------------------------------------------------------------------------------
