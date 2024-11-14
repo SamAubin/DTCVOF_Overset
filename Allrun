@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#SBATCH --account=def-fellouah   # Specify account name
-#SBATCH --time=00-01:00     # Specify time limit dd-hh:mm
-#SBATCH --mem=0
+#SBATCH --account=def-fellouah  
+#SBATCH --time=00-00:30     # Specify time limit dd-hh:mm
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=40
+#SBATCH --mem=0 
+#SBATCH --cpus-per-task=1 
 ###SBATCH --output=mpi_ex_%j.txt
-
 
 
 cd $SLURM_SUBMIT_DIR
@@ -14,6 +14,6 @@ module load StdEnv/2020  gcc/9.3.0  openmpi/4.0.3 openfoam/v2206
 
 (cd ship && bash ./Allmesh)
 #(cd background && bash ./Allmesh)
-(cd background && bash ./Allrun)
+#(cd background && bash ./Allrun)
 
 ######################################STOP######################################
