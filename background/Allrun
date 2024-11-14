@@ -1,20 +1,16 @@
 #!/bin/sh
 cd "${0%/*}" || exit                                # Run from this directory
-. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
 #------------------------------------------------------------------------------
 
 bash ./Allmesh
+mergeMeshes . ../ship -overwrite > log.mergeMesh
+topoSet -dict system/topoSetDictzoneIDs > log.topoSetDictzoneIDs
 
-restore0Dir
+cp -r 0.orig 0
+setFields > log.setFields # assign zoneIDs and alpha.water
 
-runApplication mergeMeshes . ../ship -overwrite
-
-runApplication -s zoneIDs topoSet -dict system/topoSetDict # create cellSets
-
-runApplication setFields # assign zoneIDs and alpha.water
-
-runApplication decomposePar -force
-runParallel $(getApplication)
-runParallel redistributePar -reconstruct -overwrite
+decomposePar -force > log.decomposePar 
+mpirun -np 40 $(getApplication) -parallel > log.overInterDyFoam
+mpirun -np 40 redistributePar -reconstruct -overwrite > log.redistributePar 
 
 #------------------------------------------------------------------------------
