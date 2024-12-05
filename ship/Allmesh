@@ -2,26 +2,22 @@
 cd "${0%/*}" || exit                                
 #------------------------------------------------------------------------------
 
-rm -f log*
-rm -r constant/polyMesh
-rm -r constant/extendedFeatureEdgeMesh
-rm -r 0
-rm -r fluentInterface
-
 touch DTCShip.foam
 
 blockMesh > log.blockMesh
 
 surfaceFeatureExtract > log.surfaceFeatureExtract
 
-decomposePar > log.decomposePar1
-mpirun -np 40 snappyHexMesh -parallel -dict system/snappyHexMeshDictCastellated -overwrite > log.snappyHexMeshCastellated
+topoSet -dict system/topoSetDictShm > log.topoSetShm
 
-mpirun -np 40 redistributePar -reconstruct -parallel -constant -withZero > log.redistributePar1
+decomposePar > log.decomposePar1
+mpirun -np 80 snappyHexMesh -parallel -dict system/snappyHexMeshDictCastellated -overwrite > log.snappyHexMeshCastellated
+
+mpirun -np 80 redistributePar -reconstruct -parallel -constant -withZero > log.redistributePar1
 ls -d processor* | xargs -i rm -rf ./{} $1
 
 # z-dir refinement for free surface
-topoSet -dict system/topoSetDict > log.topoSet
+topoSet -dict system/topoSetDict > log.topoSetRef
 refineMesh -dict system/refineMeshDictZ -overwrite  > log.refineMesh
 rm -f 0/cellLevel
 rm -f 0/pointLevel
@@ -30,13 +26,20 @@ rm -f constant/polyMesh/level0Edge
 rm -f constant/polyMesh/cellLevel
 
 decomposePar > log.decomposePar2
-mpirun -np 40 snappyHexMesh -parallel -dict system/snappyHexMeshDictSnapLayers -overwrite > log.snappyHexMeshDictSnapLayers
+mpirun -np 80 snappyHexMesh -parallel -dict system/snappyHexMeshDictSnapLayers -overwrite > log.snappyHexMeshDictSnapLayers
 
-mpirun -np 40 redistributePar -reconstruct -parallel -constant -withZero > log.redistributePar2
+mpirun -np 80 redistributePar -reconstruct -parallel -constant -withZero > log.redistributePar2
 ls -d processor* | xargs -i rm -rf ./{} $1
 
 renumberMesh -constant -overwrite > log.renumberMesh
 
+checkMesh > log.checkMesh
+
 foamMeshToFluent > log.foamMeshToFluent
+
+rm -f constant/polyMesh/cellLevel
+rm -f constant/polyMesh/pointLevel
+rm -f constant/polyMesh/level0Edge
+rm -r 0
 
 #------------------------------------------------------------------------------

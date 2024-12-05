@@ -16,24 +16,24 @@ FoamFile
 
 actions
 (
+
     {
-        name    c1;
-        type    cellSet;
+        name    aft;
+        type    faceSet;
         action  new;
-        source  boxToCell;
-        box     (-100 -100 0.119) (100 100 0.369);
+        source boxToFace;
+        box  (5.25 -0.5 -0.1) (6.25 0.5 0.7);
     }
 
     {
-        name    c1;
-        type    cellSet;
-        action  subset;
-        source      fieldToCell;
-        field       cellLevel;
-        min         0;
-        max         0;
-    }
+        name    bow;
+        type    faceSet;
+        action  new;
+        source boxToFace;
+        box  (-0.25 -0.5 -0.1) (0.5 0.5 0.7);
+     }
 
+ 
 );
 
 // ************************************************************************* //
