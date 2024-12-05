@@ -14,70 +14,73 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
- motionSolverLibs    (sixDoFRigidBodyMotion);
-
 dynamicFvMesh       dynamicOversetFvMesh;
 
-solver          sixDoFRigidBodyMotion;
+solvers
+{
+    boat
+    {
+        motionSolverLibs    (librigidBodyMeshMotion);
+        motionSolver         rigidBodyMotion;
 
-sixDoFRigidBodyMotionCoeffs
- {
-     patches         ( ship );
+        report              on;
+        cellSet             cs;
 
-     innerDistance   100;
-     outerDistance   200;
+        solver
+        {
+            type Newmark;
+        }
 
-     centreOfMass    ( 0 0 0 );
-     mass            412.73;
-     momentOfInertia ( 40 921 921 );
+        accelerationRelaxation 0.8;
+        accelerationDamping    0.9;
+        nIter   3;
 
-     transform       (1 0 0 0 1 0 0 0 1)  (2.929541 0 0.2);
+        bodies
+        {
+            ship
+            {
+                type            rigidBody;
+                parent          root;
+                mass            825.46;
 
-     rhoName         rhoInf;
-     rhoInf          1024.81;
+                centreOfMass    (0 0 0);
+                inertia         (80 0 0 1842 0 1846);
+                transform       (1 0 0 0 1 0 0 0 1)  (2.929541 0 0.2);
+                joint
+                {
+                    type            composite;
 
-     accelerationRelaxation 0.8;
-     accelerationDamping 0.9;
+                    joints
+                    (
+                        {
+                            type Pz;
+                        }
+                        {
+                            type Ry;
+                        }
+                    );
+                }
+                patches    (ship);
+                innerDistance   100;
+                outerDistance   200;
+            }
+        }
+        restraints
+        {
+            translationDamper
+            {
+                type linearDamper;
+                body ship;
+                coeff 8596;
+            }
 
-     report          on;
-     reportToFile    on;
-
-     solver
-     {
-        type    Newmark;
-        gamma   0.5;    // Velocity integration coefficient
-        beta    0.25;   // Position integration coefficient
-     }
-
-     constraints
-     {
-         pitch
-         {
-             sixDoFRigidBodyMotionConstraint   axis;
-             axis                              (0 1 0);        
-         }  
-
-         heave
-         {
-             sixDoFRigidBodyMotionConstraint   line;
-             direction                         (0 0 1);                
-         } 
-     }
-
-     restraints
-     {
-         translationDamper
-         {
-             sixDoFRigidBodyMotionRestraint      linearDamper;
-             coeff                               8596;              //Linear damping coefficient in Ns/m
-         }  
-
-         rotationDamper
-         {
-             sixDoFRigidBodyMotionRestraint      sphericalAngularDamper;
-             coeff                               11586;                //angular damping coefficient in Nms/rad
-         }  
-     }
- }
-
+            rotationDamper
+            {
+                type sphericalAngularDamper;
+                body ship;
+                coeff 11586;
+            }
+        }
+    }
+}
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

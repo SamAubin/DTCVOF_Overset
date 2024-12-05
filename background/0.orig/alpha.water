@@ -22,12 +22,6 @@ boundaryField
 {
     #includeEtc "caseDicts/setConstraintTypes"
 
-    oversetShip
-    {
-        type           overset;
-	value	       $internalField;
-    }
-
     inlet
     {
         type            fixedValue;
@@ -47,14 +41,20 @@ boundaryField
         type            inletOutlet ;
         inletValue      $internalField;
         value           $internalField;
-    }
+    }    
+
 
     ship
     {
         type            zeroGradient;
     }
-    
-}
 
+    "(sideleft|sideright)"
+    {
+	type	slip;
+    }
+
+
+}
 
 // ************************************************************************* //

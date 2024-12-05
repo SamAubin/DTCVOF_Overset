@@ -55,6 +55,12 @@ boundaryField
         value           $internalField;
     }
 
+    "(sideleft|sideright)"
+    {
+	type	slip;
+    }
+
+
 }
 
 

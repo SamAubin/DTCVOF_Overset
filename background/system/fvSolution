@@ -20,15 +20,15 @@ solvers
     {
         solver          PCG;
         preconditioner  DIC;
-        tolerance       1e-08;
+        tolerance       1e-09;
         relTol          0;
         maxIter         200;
     }
 
     "alpha.water.*"
     {
-        nAlphaCorr      3; // 2
-        nAlphaSubCycles 1; // 1
+        nAlphaCorr      3; 
+        nAlphaSubCycles 1; 
         cAlpha          1;
         icAlpha         0;
 
@@ -38,7 +38,7 @@ solvers
 
         solver          smoothSolver;
         smoother        symGaussSeidel;
-        tolerance       1e-8;
+        tolerance       1e-10;
         relTol          0;
         minIter         1;
     }
@@ -47,16 +47,16 @@ solvers
     {
         solver          PBiCGStab;
         preconditioner  DILU;
-        tolerance       1e-7;
-        relTol          0.01; // 0.05
+        tolerance       1e-9;
+        relTol          0.0; 
     }
 
     p_rghFinal
     {
         solver          PBiCGStab;
         preconditioner  DILU;
-        tolerance       1e-7;
-        relTol          0.01;
+        tolerance       1e-9;
+        relTol          0.0;
     }
 
     pcorr
@@ -75,16 +75,16 @@ solvers
     {
         solver          PBiCGStab;
         preconditioner  DILU;
-        tolerance       1e-7; // 1e-5
-        relTol          0.01;
+        tolerance       1e-6; 
+        relTol          0.0;
     }
 
     "(U|h)"
     {
         solver          smoothSolver;
         smoother        symGaussSeidel;
-        tolerance       1e-7; // 1e-6
-        relTol          0.01; // 0.1
+        tolerance       1e-6; 
+        relTol          0.01; 
     }
 
     "(UFinal|hFinal)"
@@ -92,22 +92,22 @@ solvers
         solver          smoothSolver;
         smoother        symGaussSeidel;
         tolerance       1e-7;
-        relTol          0.01;
+        relTol          0.0;
     }
 
     "(k|omega|epsilon|kFinal|epsilonFinal|omegaFinal)"
     {
         solver          smoothSolver;
         smoother        symGaussSeidel;
-        tolerance       1e-7; // 1e-6
-        relTol          0.01; // 0.01
+        tolerance       1e-6; 
+        relTol          0.01; 
     }
 
     "(rho|rhoFinal)"
     {
         solver          PBiCGStab;
         preconditioner  DILU;
-        tolerance       1e-7; // 1e-6
+        tolerance       1e-6; 
         relTol          0;
     }
 }
@@ -117,9 +117,8 @@ PIMPLE
     nOuterCorrectors    2;
     nCorrectors         2;
     nNonOrthogonalCorrectors 0;
-    correctPhi          yes; // no
-    oversetAdjustPhi    yes; // no
-    // ddtCorr             false;
+    correctPhi          yes; 
+    oversetAdjustPhi    yes; 
     momentumPredictor   false;
 }
 
@@ -127,7 +126,7 @@ relaxationFactors
 {
     equations
     {
-        ".*"        0.9;
+        ".*"        0.8;
     }
 }
 
@@ -136,4 +135,5 @@ cache
 {
     grad(U);
 }
+
 // ************************************************************************* //

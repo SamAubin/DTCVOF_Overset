@@ -22,12 +22,12 @@ boundaryField
 {
     #includeEtc "caseDicts/setConstraintTypes"
 
+
     ".*"
     {
         type		zeroGradient;
     }
 
 }
-
 
 // ************************************************************************* //

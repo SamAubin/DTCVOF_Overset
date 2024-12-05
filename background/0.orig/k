@@ -26,7 +26,6 @@ boundaryField
     oversetShip
     {
         type           overset;
-	value	       $internalField;
     }
 
     inlet
@@ -47,6 +46,12 @@ boundaryField
         type            kqRWallFunction;
         value           $internalField;
     }
+
+    "(sideleft|sideright)"
+    {
+	type	slip;
+    }
+
 
 }
 

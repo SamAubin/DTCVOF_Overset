@@ -16,17 +16,14 @@ FoamFile
 
 simulationType      RAS;
 
-// density             variable;
-
 RAS
 {
-    RASModel        realizableKE;
-    //RASModel        kOmegaSST;
+    //RASModel        realizableKE;
+    RASModel        kOmegaSST;
 
     turbulence      on;
 
     printCoeffs     on;
 }
-
 
 // ************************************************************************* //

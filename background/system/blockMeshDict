@@ -17,12 +17,12 @@ FoamFile
 
 scale 1;
 
-xMin -16;
+xMin -20;
 xMax 14;
-yMin -10;
-yMax 10;
-zMin -4.244;
-zMax 2.756;
+yMin -20;
+yMax 20;
+zMin -8.244;
+zMax 3.756;
 
 vertices
 (
@@ -40,7 +40,7 @@ vertices
 blocks
 (
     hex (0 1 2 3 4 5 6 7) 
-    (60 40 14) 
+    (68 80 24) 
     simpleGrading (1 1 1)
 );
 
@@ -64,7 +64,7 @@ boundary
     }
     ground
     {
-        type symmetryPlane;
+        type symmetry;
         faces
         (
             (0 1 2 3) 
@@ -72,7 +72,7 @@ boundary
     }
     atmosphere
     {
-        type inletOutlet;
+        type patch;
         faces
         (
             (4 5 6 7) 
@@ -80,7 +80,7 @@ boundary
     }
     sideleft
     {
-        type symmetryPlane;
+        type patch;
         faces
         (
             (0 1 5 4)
@@ -88,7 +88,7 @@ boundary
     }
     sideright
     {
-        type symmetryPlane;
+        type patch;
         faces
         (
             (3 2 6 7) 

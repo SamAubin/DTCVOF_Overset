@@ -28,7 +28,6 @@ boundaryField
     oversetShip
     {
         type           overset;
-	value	       $internalField;
     }
 
     ship
@@ -56,6 +55,11 @@ boundaryField
         type                pressureInletOutletVelocity;
         tangentialVelocity  $internalField;
         value               uniform (0 0 0);
+    }
+
+    "(sideleft|sideright)"
+    {
+	type	slip;
     }
 
 }

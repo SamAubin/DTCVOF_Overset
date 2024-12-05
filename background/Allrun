@@ -3,14 +3,19 @@ cd "${0%/*}" || exit                                # Run from this directory
 #------------------------------------------------------------------------------
 
 bash ./Allmesh
-mergeMeshes . ../ship -overwrite > log.mergeMesh
-topoSet -dict system/topoSetDictzoneIDs > log.topoSetDictzoneIDs
 
 cp -r 0.orig 0
+
+mergeMeshes . ../ship -overwrite > log.mergeMesh
+
+topoSet -dict system/topoSetDictzoneIDs > log.topoSetDictzoneIDs
+
 setFields > log.setFields # assign zoneIDs and alpha.water
 
-decomposePar -force > log.decomposePar 
-mpirun -np 40 $(getApplication) -parallel > log.overInterDyFoam
-mpirun -np 40 redistributePar -reconstruct -overwrite > log.redistributePar 
+decomposePar -force > log.decomposePar
+
+mpirun -np 80 overInterDyMFoam -parallel > log.overInterDyMFoam
+
+mpirun -np 80 redistributePar -reconstruct -parallel > log.redistributePar 
 
 #------------------------------------------------------------------------------

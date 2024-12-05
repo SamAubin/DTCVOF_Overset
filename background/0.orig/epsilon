@@ -25,7 +25,6 @@ boundaryField
     oversetShip
     {
         type           overset;
-	value	       $internalField;
     }
 
     inlet
@@ -46,6 +45,12 @@ boundaryField
         type            epsilonWallFunction;
         value           $internalField;
     }
+
+    "(sideleft|sideright)"
+    {
+	type	slip;
+    }
+
 
 }
 

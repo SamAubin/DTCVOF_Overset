@@ -13,12 +13,13 @@ FoamFile
     object      topoSetDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-xMin -16;
+
+xMin -20;
 xMax 14;
-yMin -10;
-yMax 10;
-zMin -4.244;
-zMax 2.756;
+yMin -20;
+yMax 20;
+zMin -8.244;
+zMax 3.756;
 
 z0 -0.756;
 z1 -0.256;

@@ -1,26 +1,32 @@
 #!/bin/sh
 cd "${0%/*}" || exit                                # Run from this directory
 #------------------------------------------------------------------------------
-rm -f log*
-rm -r fluentInterface
-rm -r constant/polyMesh
-rm -r 0
-rm -r processor*
 
 touch bg.foam
 
-blockMesh 
-snappyHexMesh -overwrite 
-topoSet -dict system/topoSetDictZ0 
+blockMesh > log.blockMeshBackground
+
+snappyHexMesh -overwrite > log.snappyHexMeshBackground 
+
+topoSet -dict system/topoSetDictZ0 > log.topoSetZeroBackground 
 
 for i in 1 2 3 4 5
 do
     foamDictionary  system/refineMeshDictZ -entry set -set c${i}
 
-    topoSet -dict system/topoSetDictZ
+    topoSet -dict system/topoSetDictZ> log.topoSetBackground${i}
 
-    refineMesh -dict system/refineMeshDictZ -overwrite
+    refineMesh -dict system/refineMeshDictZ -overwrite> log.refineBackground${i}
 done
 
-foamMeshToFluent
+rm -f constant/polyMesh/cellLevel
+rm -f constant/polyMesh/pointLevel
+rm -f constant/polyMesh/level0Edge
+rm -r 0
+
+renumberMesh -constant -overwrite > log.renumberMeshBackground 
+
+checkMesh > log.checkMeshBackground 
+
+foamMeshToFluent > log.foamMeshToFluentBackground
 #------------------------------------------------------------------------------

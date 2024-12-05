@@ -28,6 +28,7 @@ boundaryField
         value           uniform (0 0 0);
     }
 
+
     oversetShip
     {
         patchType       overset;
@@ -38,6 +39,12 @@ boundaryField
     {
         type            calculated;
         value           uniform (0 0 0);
+    }
+
+    "(sideleft|sideright)"
+    {
+	type	fixedValue;
+	value	$internalField;
     }
 
 }

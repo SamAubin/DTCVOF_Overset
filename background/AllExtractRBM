@@ -4,6 +4,11 @@ cd "${0%/*}" || exit                                # Run from this directory
 fgrep -w 'Time =' log.overInterDyMFoam > Time.dat
 sed -i 's/Time =//' Time.dat
 
+fgrep -w 'Centre of rotation: ' log.overInterDyMFoam > CofG.dat
+sed -i 's/   Centre of rotation: //' CofG.dat
+sed -i 's/(//' CofG.dat
+sed -i 's/)//' CofG.dat
+
 fgrep -w 'Orientation: ' log.overInterDyMFoam > Orientation.dat
 sed -i 's/   Orientation: //' Orientation.dat
 sed -i 's/(//' Orientation.dat
@@ -20,7 +25,8 @@ sed -i 's/(//' AngularVelocity.dat
 sed -i 's/)//' AngularVelocity.dat
 
 mkdir -p postProcessing/sixDoFRigidBodyState/0
-paste Time.dat Orientation.dat LinearVelocity.dat AngularVelocity.dat > postProcessing/sixDoFRigidBodyState/0/sixDoFRigidBodyState.dat
+paste Time.dat CofG.dat Orientation.dat LinearVelocity.dat AngularVelocity.dat > postProcessing/sixDoFRigidBodyState/0/sixDoFRigidBodyState.dat
 
-rm Time.dat Orientation.dat LinearVelocity.dat AngularVelocity.dat
+rm Time.dat CofG.dat Orientation.dat LinearVelocity.dat AngularVelocity.dat
+
 #------------------------------------------------------------------------------

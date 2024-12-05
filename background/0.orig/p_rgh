@@ -25,7 +25,6 @@ boundaryField
     oversetShip
     {
         type           overset;
-	value	       $internalField;
     }
 
     inlet
@@ -50,6 +49,12 @@ boundaryField
         type            fixedFluxPressure;
         value           $internalField;
     }
+
+    "(sideleft|sideright)"
+    {
+	type	slip;
+    }
+
 
 }
 

@@ -26,7 +26,6 @@ boundaryField
     oversetShip
     {
         type           overset;
-	value	       $internalField;
     }
 
     inlet
@@ -52,6 +51,12 @@ boundaryField
         Cs              uniform 0.5;
         value           $internalField;
     }
+
+    "(sideleft|sideright)"
+    {
+	type	slip;
+    }
+
 
 }
 
